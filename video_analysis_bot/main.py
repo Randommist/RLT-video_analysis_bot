@@ -1,5 +1,6 @@
 import asyncio
-import logging
+import sys
+from loguru import logger
 from aiogram import Bot, Dispatcher
 from config import settings
 from handlers import bot as bot_handlers
@@ -8,7 +9,8 @@ from db import init_db, close_db
 
 async def main():
     # Configure logging
-    logging.basicConfig(level=logging.INFO)
+    logger.remove()
+    logger.add(sys.stdout, level="INFO")
 
     # Initialize DB
     await init_db()

@@ -41,7 +41,7 @@ LLM.
    # POSTGRES_DB=video_analysis
    # POSTGRES_HOST=localhost
    # POSTGRES_PORT=5432
-   # LLM_MODEL=google/gemini-2.0-flash-exp:free
+   # LLM_MODEL=google/gemini-2.5-flash
    ```
 
 3. **Запустите базу данных:**

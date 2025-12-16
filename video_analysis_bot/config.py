@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     # LLM (OpenRouter/OpenAI)
     OPENROUTER_API_KEY: str
     OPENROUTER_BASE_URL: str = "https://openrouter.ai/api/v1"
-    LLM_MODEL: str = "google/gemini-2.0-flash-exp:free"  # Default model, can be changed
+    LLM_MODEL: str = "google/gemini-2.5-flash"  # Default model, can be changed
 
     @property
     def DATABASE_URL(self) -> str:

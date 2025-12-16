@@ -1,6 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.filters import CommandStart
+from loguru import logger
 from tortoise import Tortoise
 
 from services.llm import generate_sql_query
@@ -50,8 +51,11 @@ async def handle_text_query(message: Message):
                 if response_val is None:
                     response_val = 0
 
+        logger.info(
+            f"User Query: {user_query} | Generated SQL: {sql_query} | Result: {response_val}"
+        )
         await message.answer(str(response_val))
 
     except Exception as e:
-        # In production, log the error properly
+        logger.error(f"Error processing query '{user_query}': {e}")
         await message.answer(f"Произошла ошибка при обработке запроса: {str(e)}")
