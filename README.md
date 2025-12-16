@@ -25,7 +25,7 @@ LLM.
 
 1. **Клонируйте репозиторий:**
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/Randommist/RLT-video_analysis_bot
    cd video_analysis_bot
    ```
 
