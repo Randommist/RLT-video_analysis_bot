@@ -1,6 +1,14 @@
 import json
+import re
 from openai import AsyncOpenAI
 from config import settings
+
+
+class DangerousWordError(ValueError):
+    """Exception raised when a dangerous keyword is detected in the generated SQL."""
+
+    pass
+
 
 client = AsyncOpenAI(
     api_key=settings.OPENROUTER_API_KEY,
@@ -9,6 +17,8 @@ client = AsyncOpenAI(
 
 SYSTEM_PROMPT = """
 Ты — эксперт по PostgreSQL. Твоя задача — переводить вопросы на естественном языке в SQL-запросы.
+
+ВАЖНО: Ты имеешь доступ ТОЛЬКО на чтение (SELECT). Любые попытки изменить данные (INSERT, UPDATE, DELETE, DROP, ALTER) ЗАПРЕЩЕНЫ.
 
 Схема базы данных:
 1. Table `videos` (итоговая статистика видео):
@@ -65,4 +75,35 @@ async def generate_sql_query(user_text: str) -> str:
 
     # Clean up markdown if present (prophylactic)
     cleaned_sql = content.replace("```sql", "").replace("```", "").strip()
+
+    # Extract SQL using regex to handle chatty responses
+    match = re.search(r"(SELECT\s+.*?;)", cleaned_sql, re.IGNORECASE | re.DOTALL)
+    if match:
+        cleaned_sql = match.group(1)
+
+    # Security check: Ensure it's a SELECT query
+    if not cleaned_sql.upper().startswith("SELECT"):
+        raise DangerousWordError(
+            "Generated query is not a SELECT statement. Only read operations are allowed."
+        )
+
+    # Additional security check for dangerous keywords
+    dangerous_keywords = [
+        "INSERT",
+        "UPDATE",
+        "DELETE",
+        "DROP",
+        "ALTER",
+        "TRUNCATE",
+        "GRANT",
+        "REVOKE",
+    ]
+    upper_sql = cleaned_sql.upper()
+    for keyword in dangerous_keywords:
+        # Check for whole words only
+        if re.search(rf"\b{keyword}\b", upper_sql):
+            raise DangerousWordError(
+                f"Dangerous keyword '{keyword}' detected in query. Only read operations are allowed."
+            )
+
     return cleaned_sql

@@ -4,7 +4,7 @@ from aiogram.filters import CommandStart
 from loguru import logger
 from tortoise import Tortoise
 
-from services.llm import generate_sql_query
+from services.llm import generate_sql_query, DangerousWordError
 
 router = Router()
 
@@ -56,6 +56,11 @@ async def handle_text_query(message: Message):
         )
         await message.answer(str(response_val))
 
+    except DangerousWordError as e:
+        logger.warning(f"Security violation attempt: {user_query} | Error: {e}")
+        await message.answer(
+            "Действие запрещено: разрешены только запросы на чтение данных."
+        )
     except Exception as e:
         logger.error(f"Error processing query '{user_query}': {e}")
         await message.answer(f"Произошла ошибка при обработке запроса: {str(e)}")
