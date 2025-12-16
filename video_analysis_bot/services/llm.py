@@ -34,9 +34,14 @@ SYSTEM_PROMPT = """
    - id (uuid, pk)
    - video_id (uuid, fk -> videos.id)
    - created_at (timestamp) -- время замера (снапшота)
+   - views_count (int) -- просмотры на момент замера
+   - likes_count (int) -- лайки на момент замера
+   - comments_count (int) -- комментарии на момент замера
+   - reports_count (int) -- жалобы на момент замера
    - delta_views_count (int) -- прирост просмотров за час
-   - delta_likes_count (int) -- прирост лайков
-   - ... (остальные delta_ поля)
+   - delta_likes_count (int) -- прирост лайков за час
+   - delta_comments_count (int) -- прирост комментариев за час
+   - delta_reports_count (int) -- прирост жалоб за час
 
 Правила:
 1. Возвращай ТОЛЬКО SQL-запрос. Никакого markdown, никаких объяснений.
