@@ -3,12 +3,11 @@ import json
 import os
 import sys
 
-# Add the project root to sys.path
+# Add the parent directory (video_analysis_bot) to sys.path
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.append(os.path.join(os.path.dirname(__file__), "../video_analysis_bot"))
 
-from video_analysis_bot.db import init_db, close_db
-from video_analysis_bot.db.models import Video, VideoSnapshot
+from db import init_db, close_db
+from db.models import Video, VideoSnapshot
 
 
 async def load_data(file_path: str):
