@@ -67,12 +67,12 @@
 ├── .gitignore
 ├── pyproject.toml
 ├── README.md
-├── scripts/             # Скрипты (в корне)
-│   └── load_data.py     # ETL скрипт для загрузки JSON -> DB
 └── video_analysis_bot/  # Основной код приложения
     ├── __init__.py
     ├── main.py          # Точка входа
     ├── config.py        # Настройки Pydantic
+    ├── scripts/         # Скрипты
+    │   └── load_data.py # ETL скрипт для загрузки JSON -> DB
     ├── db/
     │   ├── __init__.py
     │   └── models.py    # Модели Tortoise ORM

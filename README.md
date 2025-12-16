@@ -63,7 +63,7 @@ LLM.
 5. **Загрузите данные:** Скрипт создаст таблицы и загрузит данные из
    `videos.json` (или другого файла).
    ```bash
-   python scripts/load_data.py videos.json
+   python video_analysis_bot/scripts/load_data.py videos.json
    ```
 
 6. **Запустите бота:**
@@ -78,7 +78,7 @@ LLM.
   - **`db/`**: Модели данных (Tortoise ORM) и инициализация БД.
   - **`handlers/`**: Обработчики команд Telegram.
   - **`services/`**: Взаимодействие с LLM (генерация SQL).
-- **`scripts/`**: Вспомогательные скрипты (загрузка данных).
+  - **`scripts/`**: Вспомогательные скрипты (загрузка данных).
 
 ### Схема данных
 
